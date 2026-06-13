@@ -283,7 +283,8 @@
         }
 
         #roundNum.rolling,
-        #aliveCount.rolling {
+        #aliveCount.rolling,
+        #deathsCount.rolling {
             display: inline-block;
             animation: numberRoll .7s ease;
         }
@@ -2554,12 +2555,19 @@
 
         #input {
             background: rgba(255,255,255,.055) !important;
-            color: rgba(248,250,255,.94) !important;
+            color: #fff !important;
+            -webkit-text-fill-color: #fff !important;
+            caret-color: #fff !important;
             border: 1px solid var(--line-theme) !important;
             box-shadow: inset 0 0 18px rgba(255,255,255,.025);
             clip-path: none !important;
             border-radius: 16px;
             font-size: 14px;
+        }
+
+        #input::placeholder {
+            color: rgba(255,255,255,.48) !important;
+            -webkit-text-fill-color: rgba(255,255,255,.48) !important;
         }
 
         #send {
@@ -3516,6 +3524,49 @@
             }
         }
 
+        body.is-generating .cover-title,
+        body.is-generating .brand-title,
+        body.is-generating .topbar::after,
+        body.is-generating .top-stats .pill,
+        body.is-generating .scanline,
+        body.is-generating .glitch-layer {
+            animation: none !important;
+        }
+
+        body.is-generating #story,
+        body.is-generating .story-response {
+            filter: none !important;
+        }
+
+        /* ===== v2.9 smooth mode: cancel repeated animations ===== */
+        .cover-card::before,
+        .topbar::after,
+        .brand-title,
+        .cover-title,
+        .cover-card .cover-light,
+        .cover-card .cover-grid,
+        .cover-card .cover-particles,
+        .cover-card .cover-butterfly,
+        .cover-title-wrap::before,
+        .cover-title-wrap::after,
+        .top-stats .pill,
+        #send:not(:disabled),
+        .rec-dot,
+        .rec-text,
+        .typing-cursor {
+            animation-iteration-count: 1 !important;
+        }
+
+        .cover-card .cover-light,
+        .cover-card .cover-grid,
+        .cover-card .cover-particles,
+        .cover-card .cover-butterfly,
+        .topbar::after,
+        .top-stats .pill,
+        #send:not(:disabled) {
+            animation: none !important;
+        }
+
     </style>
 </head>
 <body data-theme="red">
@@ -3551,13 +3602,14 @@
             <div class="top-stats">
                 <span class="pill">轮次 <strong id="roundNum">1</strong></span>
                 <span class="pill">存活 <strong id="aliveCount">100</strong></span>
-                <span class="pill">目标 <strong id="targetCount">50</strong></span>
+                <span class="pill">死亡 <strong id="deathsCount">0</strong></span>
             </div>
             <button class="menu-btn" id="menuBtn" title="菜单">
                 <svg viewBox="0 0 24 24"><line x1="5" y1="7" x2="19" y2="7"/><line x1="5" y1="12" x2="19" y2="12"/><line x1="5" y1="17" x2="19" y2="17"/></svg>
             </button>
             <div id="menuDropdown">
                 <div class="menu-item" data-action="status">状态面板</div>
+                <div class="menu-item" data-action="logic">逻辑自查</div>
                 <div class="menu-item" data-action="guide">操作指南</div>
                 <div class="menu-item" data-action="theme">主题</div>
                 <div class="menu-item" data-action="changelog">更新日志</div>
@@ -3646,16 +3698,16 @@
             <button class="modal-close-x" id="closeChangelogTop" title="关闭">×</button>
             <h2 class="log-title">更新日志</h2>
             <div class="changelog-list">
-                <div class="changelog-item"><strong>v1.0</strong><span class="log-body">Ashland 初版：建立 S7 世界观、轮次、存活人数、Jester、状态栏、AI 提示词与基础互动。</span></div>
-                <div class="changelog-item"><strong>v1.1</strong><span class="log-body">高强度黑暗版：增强黑暗生存、血腥淘汰、死亡冲击与残酷直播氛围规则。</span></div>
-                <div class="changelog-item"><strong>v1.2</strong><span class="log-body">UI 重制版：改为非法直播、腕带遥测、监控终端风格。</span></div>
-                <div class="changelog-item"><strong>v1.3</strong><span class="log-body">手机动效优化：优化手机顶部信息、按钮触控区域、剧情滚动与动效。</span></div>
-                <div class="changelog-item"><strong>v1.4</strong><span class="log-body">主页面光效增强：增加红蓝紫光效、粒子、故障标题与霓虹背景。</span></div>
-                <div class="changelog-item"><strong>v1.5</strong><span class="log-body">恋爱开关与流畅输出：增加好感度/恋爱关系开关，修复 AI 输出闪烁，改为逐字打字机。</span></div>
-                <div class="changelog-item"><strong>v1.6</strong><span class="log-body">Jester 气泡与选项识别：Jester 改为主持人气泡，A/B/C 选项可点击。</span></div>
-                <div class="changelog-item"><strong>v1.7</strong><span class="log-body">参考图 UI 强化：加入赛博标签、复古弹窗、黑白颗粒与霓虹视觉。</span></div>
-                <div class="changelog-item"><strong>v1.8</strong><span class="log-body">干净封面修正：减少主页面方块，改成更干净的海报式封面并优化手机显示。</span></div>
-                <div class="changelog-item"><strong>v1.9</strong><span class="log-body">稳定可玩与字体主题精修：修复 PC/手机可操作性，状态面板不再挡输入，重做字体层级、主题切换、Jester 气泡与文本强调。</span></div>
+                <div class="changelog-item"><strong>v2.9 · 2026年06月14日 03:42</strong><span class="log-body">取消重复动画与重复触发：关闭主要无限循环动画，移除定时自修复轮询，新增开始与发送锁，防止按钮、回车、选项连点造成重复请求和卡顿。</span></div>
+                <div class="changelog-item"><strong>v2.8 · 2026年06月14日 03:33</strong><span class="log-body">新增逻辑自查；更新日志改为倒叙；输入框固定白色；优化选项点击卡顿；右上角改为轮次 / 存活 / 死亡并实时读取状态；生成时降低闪烁；加入点击与武器获得音效。</span></div>
+                <div class="changelog-item"><strong>v2.7 · 2026年06月14日 03:18</strong><span class="log-body">修复输入框与选项锁死问题：进入游戏后会自动修复输入状态，选项点击改为更稳的按钮识别。</span></div>
+                <div class="changelog-item"><strong>v2.6 · 2026年06月14日 03:02</strong><span class="log-body">优化手机主页面：缩小欢迎与警告文字，增加留白，取消手机端白色细方框，操作指南字体改为更干净的无衬线排版。</span></div>
+                <div class="changelog-item"><strong>v2.5 · 2026年06月14日 02:48</strong><span class="log-body">操作指南标题加入统一符号；新增 S7 存活后可继续到下一场；发送按钮去框并放大图标。</span></div>
+                <div class="changelog-item"><strong>v2.4 · 2026年06月14日 02:32</strong><span class="log-body">系统文字降为白色，减少彩色干扰；全局字体改为高级无衬线；玩家对话色条跟随主题；取消生成后自动弹键盘。</span></div>
+                <div class="changelog-item"><strong>v2.3 · 2026年06月14日 02:10</strong><span class="log-body">新增操作指南；接入直播按钮改为单色主题；Jester 名字跟随主题；保存 API 后自动继续。</span></div>
+                <div class="changelog-item"><strong>v2.2 · 2026年06月14日 01:42</strong><span class="log-body">正文取消不必要的框；隐藏当前状态字段；增加身份重新 ROLL、确认与自定义。</span></div>
+                <div class="changelog-item"><strong>v1.9 · 2026年06月14日 00:58</strong><span class="log-body">稳定可玩与字体主题精修：修复 PC/手机可操作性，状态面板不再挡输入，重做字体层级、主题切换、Jester 气泡与文本强调。</span></div>
+                <div class="changelog-item"><strong>v1.0 · 2026年06月13日 23:20</strong><span class="log-body">Ashland 初版：建立 S7 世界观、轮次、存活人数、Jester、状态栏、AI 提示词与基础互动。</span></div>
             </div>
             <div class="modal-actions">
                 <button class="small-btn" id="closeChangelog">关闭</button>
@@ -3669,6 +3721,15 @@
             <button class="modal-close-x" id="closeReview" title="关闭">×</button>
             <h2 class="log-title">回顾</h2>
             <div class="review-list" id="reviewList"></div>
+        </div>
+    </div>
+
+
+    <div class="modal" id="logicModal">
+        <div class="modal-card">
+            <button class="modal-close-x" id="closeLogic" title="关闭">×</button>
+            <h2 class="log-title">逻辑自查</h2>
+            <div class="guide-list" id="logicReport"></div>
         </div>
     </div>
 
@@ -3818,6 +3879,8 @@ let SYSTEM_PROMPT = localStorage.getItem('ashland_prompt') || ASHLAND_PROMPT;
 let state = loadState();
 let chatHistory = loadHistory();
 let isGenerating = false;
+let sendLocked = false;
+let startLocked = false;
 
 const startBtn = document.getElementById('startBtn');
 const cover = document.getElementById('cover');
@@ -3840,6 +3903,8 @@ const changelogModal = document.getElementById('changelogModal');
 const reviewModal = document.getElementById('reviewModal');
 const reviewList = document.getElementById('reviewList');
 const guideModal = document.getElementById('guideModal');
+const logicModal = document.getElementById('logicModal');
+const logicReport = document.getElementById('logicReport');
 const startupHint = document.getElementById('startupHint');
 let pendingStartAfterSettings = false;
 
@@ -3897,8 +3962,11 @@ function ensurePlayableState() {
     }
 
     const settingsOpen = settingsModal.classList.contains('active');
-    const canInput = appVisible && !!API_KEY && !isGenerating && !settingsOpen;
-    setInputEnabled(canInput);
+    const canType = appVisible && !settingsOpen;
+    const canSend = appVisible && !settingsOpen && !isGenerating;
+    setInputEnabled(canType);
+    send.disabled = !canSend;
+    send.toggleAttribute('aria-disabled', !canSend);
 
     if (startupHint) {
         startupHint.innerHTML = API_KEY
@@ -3913,6 +3981,45 @@ function showToast(message) {
     setTimeout(() => toast.classList.remove('show'), 2200);
 }
 
+let audioCtx = null;
+let audioUnlocked = false;
+
+function unlockAudio() {
+    try {
+        audioCtx = audioCtx || new (window.AudioContext || window.webkitAudioContext)();
+        if (audioCtx.state === 'suspended') audioCtx.resume();
+        audioUnlocked = true;
+    } catch {
+        audioUnlocked = false;
+    }
+}
+
+function playSfx(type = 'click') {
+    if (!audioUnlocked) return;
+    try {
+        const ctx = audioCtx || new (window.AudioContext || window.webkitAudioContext)();
+        audioCtx = ctx;
+        const now = ctx.currentTime;
+        const osc = ctx.createOscillator();
+        const gain = ctx.createGain();
+        osc.type = type === 'weapon' ? 'sawtooth' : 'sine';
+        osc.frequency.setValueAtTime(type === 'weapon' ? 120 : 520, now);
+        osc.frequency.exponentialRampToValueAtTime(type === 'weapon' ? 54 : 720, now + (type === 'weapon' ? .18 : .06));
+        gain.gain.setValueAtTime(type === 'weapon' ? .055 : .025, now);
+        gain.gain.exponentialRampToValueAtTime(.001, now + (type === 'weapon' ? .22 : .08));
+        osc.connect(gain);
+        gain.connect(ctx.destination);
+        osc.start(now);
+        osc.stop(now + (type === 'weapon' ? .24 : .09));
+    } catch {}
+}
+
+function triggerSfxFromText(text) {
+    if (/(获得|拿到|拾起|拔出|装备|武器|刀|枪|斧|弩|匕首|棍|爆炸物|手枪|步枪)/.test(text || '')) {
+        playSfx('weapon');
+    }
+}
+
 function setInputEnabled(enabled) {
     input.disabled = !enabled;
     send.disabled = !enabled;
@@ -3922,8 +4029,11 @@ function setInputEnabled(enabled) {
 
 function repairInputLock() {
     const settingsOpen = settingsModal.classList.contains('active');
-    if (app.classList.contains('visible') && API_KEY && !isGenerating && !settingsOpen) {
-        setInputEnabled(true);
+    if (app.classList.contains('visible') && !settingsOpen) {
+        input.disabled = false;
+        input.toggleAttribute('aria-disabled', false);
+        send.disabled = !!isGenerating;
+        send.toggleAttribute('aria-disabled', !!isGenerating);
         if (bootOverlay) {
             bootOverlay.classList.remove('active');
             bootOverlay.classList.add('force-closed');
@@ -3945,7 +4055,8 @@ function animateNumber(id) {
 function updateUI(prev = {}) {
     document.getElementById('roundNum').textContent = state.round;
     document.getElementById('aliveCount').textContent = state.alive;
-    document.getElementById('targetCount').textContent = state.target;
+    const deathsCount = document.getElementById('deathsCount');
+    if (deathsCount) deathsCount.textContent = state.deaths;
     document.getElementById('uiPhase').textContent = state.phase;
     document.getElementById('uiRank').textContent = state.rank;
     document.getElementById('uiSideEffect').textContent = state.sideEffect;
@@ -3963,6 +4074,7 @@ function updateUI(prev = {}) {
 
     if (prev.round !== undefined && prev.round !== state.round) animateNumber('roundNum');
     if (prev.alive !== undefined && prev.alive !== state.alive) animateNumber('aliveCount');
+    if (prev.deaths !== undefined && prev.deaths !== state.deaths) animateNumber('deathsCount');
 }
 
 function escapeHTML(value) {
@@ -3987,12 +4099,13 @@ function sanitizeText(text) {
 }
 
 function extractStatus(text) {
-    const matches = [...text.matchAll(/【\s*状态变更\s*】([^\n\r]+)/g)];
+    const matches = [...text.matchAll(/【\s*状态变更\s*】\s*([\s\S]*?)(?=\n\s*【|$)/g)];
     if (!matches.length) return;
 
     const prev = { ...state };
-    const raw = matches[matches.length - 1][1];
+    const raw = matches[matches.length - 1][1].split('\n').slice(0, 4).join('，');
     const parts = raw.split(/[,，]/).map(x => x.trim()).filter(Boolean);
+    let deathsProvided = false;
 
     for (const part of parts) {
         const kv = part.match(/^([^=：:]+)\s*[=：:]\s*(.+)$/);
@@ -4006,7 +4119,10 @@ function extractStatus(text) {
         else if (/阶段/.test(key)) state.phase = value;
         else if (/人气|排名/.test(key)) state.rank = value;
         else if (/副作用/.test(key)) state.sideEffect = parseInt(value, 10) || 0;
-        else if (/本轮淘汰|淘汰/.test(key)) state.deaths = parseInt(value, 10) || 0;
+        else if (/本轮淘汰|淘汰|死亡/.test(key)) {
+            state.deaths = parseInt(value, 10) || 0;
+            deathsProvided = true;
+        }
         else if (/场景/.test(key)) state.scene = value;
         else if (/玩家|姓名|角色/.test(key)) state.player = value;
         else if (/所属|公司/.test(key) && !/制作/.test(key)) state.company = value;
@@ -4016,13 +4132,17 @@ function extractStatus(text) {
         else if (/物品|道具/.test(key)) state.inventory = value === '空' ? [] : value.split(/[|、，,]/).map(x => x.trim()).filter(Boolean);
     }
 
+    if (!deathsProvided && prev.alive !== undefined && state.alive < prev.alive) {
+        state.deaths = Math.max(0, prev.alive - state.alive);
+    }
+
     updateUI(prev);
     saveLocal();
 }
 
 function visibleText(text) {
     let cleaned = sanitizeText(text)
-        .replace(/【\s*状态变更\s*】[^\n\r]+/g, '')
+        .replace(/【\s*状态变更\s*】\s*[\s\S]*?(?=\n\s*【|$)/g, '')
         .replace(/【\s*当前(?:前端)?状态\s*】[^\n\r]*(?:\n[^\n\r]*){0,6}/g, '')
         .replace(/^.*当前(?:前端)?状态.*$/gmi, '')
         .replace(/^.*赛季\s*=\s*S?\d+.*存活\s*=\s*\d+.*$/gmi, '')
@@ -4109,6 +4229,7 @@ function appendAssistant(text) {
     const wrapper = document.createElement('div');
     wrapper.innerHTML = formatText(text);
     story.appendChild(wrapper);
+    triggerSfxFromText(text);
     scrollStory();
 }
 
@@ -4145,6 +4266,8 @@ function renderHistory() {
 }
 
 async function startGame() {
+    if (startLocked || isGenerating) return;
+    startLocked = true;
     if (romanceToggle) state.romanceEnabled = romanceToggle.checked;
 
     if (bootOverlay) {
@@ -4169,36 +4292,56 @@ async function startGame() {
         appendSystem('系统：请先填写 DeepSeek API Key。保存后将自动继续接入 Ashland S7。');
         openSettings();
         ensurePlayableState();
+        startLocked = false;
         return;
     }
 
     if (chatHistory.length > 0) {
         isGenerating = false;
         ensurePlayableState();
+        startLocked = false;
         return;
     }
 
     const romanceLine = state.romanceEnabled ? '好感度/恋爱关系线：开启。' : '好感度/恋爱关系线：关闭。';
     chatHistory.push({ role: 'user', content: '开始游戏。请按开局流程第一步，引导我进入 Ashland S7。' + romanceLine });
     appendUser('开始游戏');
-    await fetchAI();
+    try {
+        await fetchAI();
+    } finally {
+        startLocked = false;
+    }
 }
 
 async function handleSend() {
+    if (sendLocked || isGenerating) return;
+    sendLocked = true;
+    unlockAudio();
     repairInputLock();
     const message = input.value.trim();
-    if (!message || isGenerating) return;
+    if (!message) {
+        sendLocked = false;
+        return;
+    }
 
     if (!API_KEY) {
         showToast('请先填写 API Key');
         openSettings();
+        sendLocked = false;
         return;
     }
 
     input.value = '';
     chatHistory.push({ role: 'user', content: message });
     appendUser(message);
-    await fetchAI();
+    ensurePlayableState();
+    await new Promise(resolve => requestAnimationFrame(resolve));
+    try {
+        await fetchAI();
+    } finally {
+        sendLocked = false;
+        ensurePlayableState();
+    }
 }
 
 
@@ -4239,6 +4382,7 @@ async function typeStreamingText(textEl, getText, shouldContinue) {
 
 async function fetchAI() {
     isGenerating = true;
+    document.body.classList.add('is-generating');
     setInputEnabled(false);
 
     let full = '';
@@ -4307,6 +4451,7 @@ async function fetchAI() {
         appendSystem('直播信号受到干扰：' + error.message);
     } finally {
         isGenerating = false;
+        document.body.classList.remove('is-generating');
         if (bootOverlay) {
             bootOverlay.classList.remove('active');
             bootOverlay.classList.add('force-closed');
@@ -4419,11 +4564,17 @@ function resetGame() {
 }
 
 if (startBtn) {
-    startBtn.addEventListener('click', startGame);
+    startBtn.addEventListener('click', () => {
+        unlockAudio();
+        playSfx('click');
+        startGame();
+    });
 } else {
     appendSystem('系统错误：未找到接入直播按钮。');
 }
 send.addEventListener('click', () => {
+    unlockAudio();
+    playSfx('click');
     repairInputLock();
     handleSend();
 });
@@ -4438,10 +4589,16 @@ input.addEventListener('keydown', e => {
 story.addEventListener('click', e => {
     const optionBtn = e.target.closest('.option-btn');
     if (optionBtn) {
+        e.preventDefault();
+        e.stopPropagation();
+        if (isGenerating || optionBtn.disabled) return;
+        unlockAudio();
+        playSfx('click');
         repairInputLock();
         optionBtn.classList.add('clicked');
+        optionBtn.disabled = true;
         input.value = stripHTML(optionBtn.dataset.action || optionBtn.textContent);
-        setTimeout(() => handleSend(), 120);
+        requestAnimationFrame(() => handleSend());
     }
 });
 
@@ -4467,11 +4624,29 @@ function renderReview() {
     reviewList.innerHTML = entries || '<div class="review-entry"><span class="review-role">SYSTEM</span>暂无可回顾内容。</div>';
 }
 
+function renderLogicCheck() {
+    repairInputLock();
+    const checks = [
+        ['界面状态', app.classList.contains('visible') ? '已进入游玩界面' : '仍在主页面'],
+        ['输入框', input.disabled ? '锁定' : '可输入'],
+        ['发送按钮', send.disabled ? '生成中或暂不可发送' : '可发送'],
+        ['遮罩层', bootOverlay && bootOverlay.classList.contains('active') ? '仍在显示' : '未遮挡'],
+        ['选项按钮', `${document.querySelectorAll('.option-btn').length} 个可识别选项`],
+        ['API 状态', API_KEY ? '已保存' : '未填写，发送时会打开设置'],
+        ['状态栏', `轮次 ${state.round} / 存活 ${state.alive} / 死亡 ${state.deaths}`],
+        ['生成状态', isGenerating ? 'AI 正在生成' : '空闲']
+    ];
+    logicReport.innerHTML = checks.map(([title, body]) =>
+        `<div class="guide-section"><strong><span class="guide-icon">◆</span>${title}</strong><span>${escapeHTML(body)}</span></div>`
+    ).join('');
+}
+
 document.querySelectorAll('.menu-item').forEach(item => {
     item.addEventListener('click', () => {
         const action = item.dataset.action;
         menuDropdown.classList.remove('active');
         if (action === 'status') sidePanel.classList.toggle('active');
+        if (action === 'logic') { renderLogicCheck(); logicModal.classList.add('active'); }
         if (action === 'guide') guideModal.classList.add('active');
         if (action === 'theme') themeModal.classList.add('active');
         if (action === 'changelog') changelogModal.classList.add('active');
@@ -4495,6 +4670,7 @@ document.getElementById('closeTheme').addEventListener('click', () => themeModal
 document.getElementById('closeChangelog').addEventListener('click', () => changelogModal.classList.remove('active'));
 document.getElementById('closeChangelogTop').addEventListener('click', () => changelogModal.classList.remove('active'));
 document.getElementById('closeReview').addEventListener('click', () => reviewModal.classList.remove('active'));
+document.getElementById('closeLogic').addEventListener('click', () => logicModal.classList.remove('active'));
 document.getElementById('closeGuide').addEventListener('click', () => guideModal.classList.remove('active'));
 document.getElementById('closeStatus').addEventListener('click', () => sidePanel.classList.remove('active'));
 
@@ -4525,7 +4701,6 @@ if (state.started) {
     }
 }
 ensurePlayableState();
-window.setInterval(repairInputLock, 1200);
     </script>
 </body>
 </html>
