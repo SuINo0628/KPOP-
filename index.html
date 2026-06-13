@@ -3896,7 +3896,8 @@ function ensurePlayableState() {
         }
     }
 
-    const canInput = appVisible && !!API_KEY && !isGenerating && !settingsModal.classList.contains('active');
+    const settingsOpen = settingsModal.classList.contains('active');
+    const canInput = appVisible && !!API_KEY && !isGenerating && !settingsOpen;
     setInputEnabled(canInput);
 
     if (startupHint) {
@@ -3915,6 +3916,22 @@ function showToast(message) {
 function setInputEnabled(enabled) {
     input.disabled = !enabled;
     send.disabled = !enabled;
+    input.toggleAttribute('aria-disabled', !enabled);
+    send.toggleAttribute('aria-disabled', !enabled);
+}
+
+function repairInputLock() {
+    const settingsOpen = settingsModal.classList.contains('active');
+    if (app.classList.contains('visible') && API_KEY && !isGenerating && !settingsOpen) {
+        setInputEnabled(true);
+        if (bootOverlay) {
+            bootOverlay.classList.remove('active');
+            bootOverlay.classList.add('force-closed');
+            bootOverlay.style.pointerEvents = 'none';
+        }
+        cover.classList.add('hidden');
+        cover.style.pointerEvents = 'none';
+    }
 }
 
 function animateNumber(id) {
@@ -4168,6 +4185,7 @@ async function startGame() {
 }
 
 async function handleSend() {
+    repairInputLock();
     const message = input.value.trim();
     if (!message || isGenerating) return;
 
@@ -4405,18 +4423,24 @@ if (startBtn) {
 } else {
     appendSystem('系统错误：未找到接入直播按钮。');
 }
-send.addEventListener('click', handleSend);
+send.addEventListener('click', () => {
+    repairInputLock();
+    handleSend();
+});
 input.addEventListener('keydown', e => {
     if (e.key === 'Enter') {
         e.preventDefault();
+        repairInputLock();
         handleSend();
     }
 });
 
 story.addEventListener('click', e => {
-    if (e.target.classList.contains('option-btn')) {
-        e.target.classList.add('clicked');
-        input.value = stripHTML(e.target.dataset.action || e.target.textContent);
+    const optionBtn = e.target.closest('.option-btn');
+    if (optionBtn) {
+        repairInputLock();
+        optionBtn.classList.add('clicked');
+        input.value = stripHTML(optionBtn.dataset.action || optionBtn.textContent);
         setTimeout(() => handleSend(), 120);
     }
 });
@@ -4475,8 +4499,10 @@ document.getElementById('closeGuide').addEventListener('click', () => guideModal
 document.getElementById('closeStatus').addEventListener('click', () => sidePanel.classList.remove('active'));
 
 input.addEventListener('focus', () => sidePanel.classList.remove('active'));
+input.addEventListener('pointerdown', repairInputLock);
 story.addEventListener('pointerdown', () => {
     if (window.innerWidth <= 900) sidePanel.classList.remove('active');
+    repairInputLock();
 });
 
 document.getElementById('closeSettings').addEventListener('click', closeSettingsModal);
@@ -4499,6 +4525,7 @@ if (state.started) {
     }
 }
 ensurePlayableState();
+window.setInterval(repairInputLock, 1200);
     </script>
 </body>
 </html>
