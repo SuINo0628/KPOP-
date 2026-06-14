@@ -639,24 +639,52 @@
 
         .inputbar {
             display: flex;
-            gap: 12px;
-            padding: 13px 18px;
-            border-top: 1px solid var(--line-hard);
+            flex-direction: column;
+            gap: 8px;
+            padding: 10px 12px;
             background: linear-gradient(180deg, rgba(10,10,15,.74), rgba(10,10,15,.96));
             backdrop-filter: blur(18px);
+        }
+
+        .quick-actions {
+            display: flex;
+            gap: 6px;
+            justify-content: center;
+        }
+
+        .quick-btn {
+            padding: 6px 14px;
+            border: 1px solid rgba(255,255,255,.12);
+            background: rgba(255,255,255,.04);
+            color: rgba(255,255,255,.78);
+            font-size: 12px;
+            cursor: pointer;
+            border-radius: 16px;
+            transition: all .2s;
+        }
+
+        .quick-btn:hover {
+            background: rgba(37,217,255,.18);
+            border-color: rgba(37,217,255,.35);
+            color: var(--text);
+        }
+
+        .input-row {
+            display: flex;
+            gap: 8px;
         }
 
         #input {
             flex: 1;
             min-width: 0;
-            height: 48px;
+            height: 40px;
             border: 1px solid rgba(255,255,255,.13);
             background: rgba(255,255,255,.045);
             color: var(--text);
             outline: none;
-            padding: 0 16px;
+            padding: 0 14px;
             font-size: 14px;
-            clip-path: polygon(0 0, calc(100% - 12px) 0, 100% 12px, 100% 100%, 12px 100%, 0 calc(100% - 12px));
+            clip-path: polygon(0 0, calc(100% - 10px) 0, 100% 10px, 100% 100%, 10px 100%, 0 calc(100% - 10px));
         }
 
         #input:focus {
@@ -664,16 +692,22 @@
             box-shadow: 0 0 0 1px rgba(37,217,255,.16);
         }
 
+        .input-hint {
+            font-size: 11px;
+            color: rgba(255,255,255,.45);
+            text-align: center;
+        }
+
         #send {
-            width: 52px;
-            height: 48px;
+            width: 46px;
+            height: 40px;
             border: 1px solid rgba(255,255,255,.18);
             background: linear-gradient(135deg, var(--blood), #4a1421);
             color: white;
             cursor: pointer;
             font-family: var(--mono);
             font-weight: 900;
-            clip-path: polygon(0 0, calc(100% - 12px) 0, 100% 12px, 100% 100%, 12px 100%, 0 calc(100% - 12px));
+            clip-path: polygon(0 0, calc(100% - 10px) 0, 100% 10px, 100% 100%, 10px 100%, 0 calc(100% - 10px));
         }
 
         #send:disabled {
@@ -3705,8 +3739,17 @@
         </main>
 
         <footer class="inputbar">
-            <input id="input" type="text" placeholder="输入行动、对话，或点击选项……" autocomplete="off" disabled>
-            <button id="send" disabled>➜</button>
+            <div class="quick-actions">
+                <button class="quick-btn" id="quickStatus" title="查看状态">状态</button>
+                <button class="quick-btn" id="quickDanmaku" title="查看弹幕">弹幕</button>
+                <button class="quick-btn" id="quickGuide" title="使用手册">手册</button>
+                <button class="quick-btn" id="quickLogic" title="逻辑自查">自查</button>
+            </div>
+            <div class="input-row">
+                <input id="input" type="text" placeholder="输入行动、对话，或点击选项……" autocomplete="off" disabled>
+                <button id="send" disabled>➜</button>
+            </div>
+            <div class="input-hint">可以自行输入指令，系统判定后续发展走向</div>
         </footer>
     </div>
 
@@ -3752,6 +3795,7 @@
             <button class="modal-close-x" id="closeChangelogTop" title="关闭">×</button>
             <h2 class="log-title">更新日志</h2>
             <div class="changelog-list">
+                <div class="changelog-item"><strong>v3.2 · 2026年06月14日</strong><span class="log-body">输入区优化：添加横排快捷按钮（状态/弹幕/手册/自查）；输入框缩小为40px；移除顶部白色横线；手机端选项下方添加"可以自行输入指令，系统判定后续发展走向"提示；修复选项解析（支持">"前缀格式）；弹幕系统大幅扩展：新增8种人群类型（粉丝团/CP粉/观众/吐槽/内部/应援/媒体/吃瓜），4种弹幕ID格式（英文@ID_XXXX/韩文#가나다/数字ID123456/游戏[SVT]ABC），7种消息类型（正面/CP粉/负面/贱兮兮/同情/痛斥节目组/内部消息）。</span></div>
                 <div class="changelog-item"><strong>v3.1 · 2026年06月14日</strong><span class="log-body">AI生成文本后自动滚动到新内容起始处（而非最底部），用户手动向上滑动时暂停自动跟随；新增随机弹幕ID与CP粉/普通观众/负面弹幕系统；"研墨中"改为"直播中"以匹配世界观。</span></div>
                 <div class="changelog-item"><strong>v3.0 · 2026年06月14日</strong><span class="log-body">强化系统提示词输出规则：强制每次回复必须返回2-4个编号选项，选项以◇或数字开头并单独成行；隐藏信息规则（对手能力等放入【状态变更】不显示）；新增死亡播报与人数联动；强化存活人数与剧情的实时绑定。</span></div>
                 <div class="changelog-item"><strong>v2.9 · 2026年06月14日 03:42</strong><span class="log-body">取消重复动画与重复触发：关闭主要无限循环动画，移除定时自修复轮询，新增开始与发送锁，防止按钮、回车、选项连点造成重复请求和卡顿。</span></div>
@@ -4263,32 +4307,83 @@ const bulletCrowd = {
     soloFans: [
         '元英粉丝', '瑞莎粉丝', '贤镇粉丝', '智敏粉丝', '智英粉丝',
         '娜妍粉丝', '彩妍粉丝', '敏智粉丝', '彩媛粉丝', '宥真粉丝',
-        '小婷粉丝', '多娟粉丝', '有娜粉丝', '礼志粉丝', '留真粉丝'
+        '小婷粉丝', '多娟粉丝', '有娜粉丝', '礼志粉丝', '留真粉丝',
+        '秀珉粉丝', '泰妍粉丝', '允儿粉丝', '智秀粉丝', 'Lisa粉丝',
+        'Jennie粉丝', 'Rose粉丝', 'Jisoo粉丝', '志效粉丝', '娜琏粉丝'
     ],
     // CP粉
     cpFans: [
         '元瑞CP粉', '贤智CP粉', '妍媛CP粉', '敏彩CP粉', '宥婷CP粉',
-        '娟娜CP粉', '彩礼CP粉', '英真CP粉', '智敏CP粉', '秀敏CP粉'
+        '娟娜CP粉', '彩礼CP粉', '英真CP粉', '智敏CP粉', '秀敏CP粉',
+        'VKook粉', 'Taegi粉', 'Namjin粉', 'JiKook粉', 'Yoonmin粉',
+        'JeongCheol粉', 'Meanie粉', 'SoonHoon粉', 'JoshuaHong粉', 'Junhao粉'
     ],
     // 普通观众
     general: [
         '路人观众', '综艺粉', '选秀路人', '节目忠实粉', '吃瓜群众',
-        '路人甲', '路人乙', '普通观众', '看综艺的'
+        '路人甲', '路人乙', '普通观众', '看综艺的', '直播常驻',
+        '深夜观众', '海外粉丝', '新入坑', '老粉回归', '纯路人'
     ],
     // 黑粉/负面弹幕（非人身攻击，吐槽节目/剧本）
     haters: [
         '剧本检测器', '节目组观察者', '节目吐槽君', '收视率分析师',
-        '评委', '毒舌观众', '节目黑粉', '剧情质检员'
+        '评委', '毒舌观众', '节目黑粉', '剧情质检员', '真相追求者',
+        '阴谋论者', '节奏大师', '吃瓜专业户', '暴躁老哥', '冷静分析'
+    ],
+    // 节目组水军/内部人员
+    staff: [
+        'PD室', '导播', '摄像组', '灯光师', '音效组',
+        '编剧组', '制片', '宣发组', '法务部', '技术组'
+    ],
+    // 应援会/站子
+    fanClub: [
+        '官方应援会', '个人站子', '联合应援', '手幅制作组',
+        '视频组', '图片组', '字幕组', '数据组', '集资组', '应援企划'
+    ],
+    // 媒体记者
+    press: [
+        'Dispatch', 'OSEN', 'StarNews', 'Newsen', 'XportsNews',
+        '韩联社', '体育朝鲜', '每日经济', 'MBC娱乐', 'SBS娱乐'
+    ],
+    // 吃瓜群众/键盘侠
+    keyboardWarrior: [
+        '吃瓜达人', '网络侦探', '福尔摩斯', '列文虎克',
+        '显微镜女孩', '理性分析', '阴谋论者', '真相帝', '预言家', '毒奶'
     ]
 };
 
+// 生成多样化的弹幕ID
 function generateBulletId() {
-    const chars = 'ABCDEFGHJKLMNPQRSTUVWXYZ0123456789';
-    let id = '#';
-    for (let i = 0; i < 6; i++) {
-        id += chars.charAt(Math.floor(Math.random() * chars.length));
-    }
-    return id;
+    const idTypes = [
+        () => { // 英文ID (Twitter风格)
+            const chars = 'ABCDEFGHJKLMNPQRSTUVWXYZ0123456789';
+            let id = '@';
+            for (let i = 0; i < 4; i++) id += chars.charAt(Math.floor(Math.random() * chars.length));
+            id += '_';
+            for (let i = 0; i < 4; i++) id += chars.charAt(Math.floor(Math.random() * chars.length));
+            return id;
+        },
+        () => { // 韩文ID
+            const hangul = '가각간갇갈감갑갓강개거건검것게겨견결겹경계고공곡곤곧고구국군군구금근긱기나각난낟날남납낭내녀년녈념녘녜노녹놀놈놉놓뇌뇐누눅눈눈누늠늦능니라락란랄람랍랑래랭러런렐렘렝례로록롱론롤로루룩룬룹룽뢰륜류륙륜률륨릉리마막만많맘맛망매맹메멈멋명모목몰몸몫모무묵문묶무뭄뭇뭉뫼뮤뮨믐믓미바박반밗발밤밥방배백번번벤벤벵벼별볍병볕보복볶본봄봅봉부북분불붐붓붕뷔브븐블븜브비사삭산삯살삼삽상새색생셋셈셍셔션셜섬섯성세소속손솔솜솟송소수숙순술숨숫숭쉐슈슨슬슘슛슝시아악안앉않았앙애액앤앵어언얹얻양에역엔엉여역연열엷영예오옥온올옴옷옹와왁완왈왐왑왕왜왝왠왬왭외요욕용우욱운울움웃웅웨웬위유육윤율윰융이익인일임잇잉자작잔잖잘잠잡장재잭잰잼잽쟁저적전절점정제조족존졸좀졷종조주죽준줄줌줏중쥐주즌줄줍쥐지차착찬찮찰참찹창채책챈챌챔챕챙처척천철첨첩청체초촉촌촐촘촛총초추축춘출춤춧충췌츄츈츌츔츙치카칵칸칟칼침칩칭케컥컨컬컴컵컹코콕콘콜콤콧콩쿠쿡쿤쿨쿰쿳쿵쿼큔클큠클큡키타탁탄탈탐탑탕태택탄탤탬탭탱터턱턴털텀텃텅테토톡톤톨톰톧통투툭툰툴툼툿퉁튀튄튈튐튑튕티파팍판팔팜팝팡패팽페펌펍펑퍼퍽펀펄펌펏펑포폭폰폴폼폿폽포푸푹푼푸푼푹푼품푹푼풍프픈플픔플픕피하학한할함합항해핵한할함합항해핵핸핼힘힙힝히';
+            let id = '';
+            const len = 3 + Math.floor(Math.random() * 2);
+            for (let i = 0; i < len; i++) id += hangul.charAt(Math.floor(Math.random() * hangul.length));
+            return '#' + id;
+        },
+        () => { // 数字ID
+            let id = 'ID';
+            for (let i = 0; i < 6; i++) id += Math.floor(Math.random() * 10);
+            return id;
+        },
+        () => { // 游戏风格ID
+            const chars = 'ABCDEFGHJKLMNPQRSTUVWXYZ';
+            let id = '[SVT]';
+            for (let i = 0; i < 3; i++) id += chars.charAt(Math.floor(Math.random() * chars.length));
+            return id;
+        }
+    ];
+    
+    return idTypes[Math.floor(Math.random() * idTypes.length)]();
 }
 
 // ===== 死亡播报触发 =====
@@ -4297,18 +4392,31 @@ function triggerDeathAnnouncement(count) {
     const crowdType = Math.random();
     let userName, prefix;
     
-    if (crowdType < 0.35) {
+    // 扩展人群类型
+    if (crowdType < 0.25) {
         userName = bulletCrowd.soloFans[Math.floor(Math.random() * bulletCrowd.soloFans.length)];
         prefix = '粉丝团';
-    } else if (crowdType < 0.55) {
+    } else if (crowdType < 0.40) {
         userName = bulletCrowd.cpFans[Math.floor(Math.random() * bulletCrowd.cpFans.length)];
         prefix = 'CP粉';
-    } else if (crowdType < 0.75) {
+    } else if (crowdType < 0.55) {
         userName = bulletCrowd.general[Math.floor(Math.random() * bulletCrowd.general.length)];
         prefix = '观众';
-    } else {
+    } else if (crowdType < 0.68) {
         userName = bulletCrowd.haters[Math.floor(Math.random() * bulletCrowd.haters.length)];
         prefix = '吐槽';
+    } else if (crowdType < 0.78) {
+        userName = bulletCrowd.staff[Math.floor(Math.random() * bulletCrowd.staff.length)];
+        prefix = '内部';
+    } else if (crowdType < 0.86) {
+        userName = bulletCrowd.fanClub[Math.floor(Math.random() * bulletCrowd.fanClub.length)];
+        prefix = '应援';
+    } else if (crowdType < 0.93) {
+        userName = bulletCrowd.press[Math.floor(Math.random() * bulletCrowd.press.length)];
+        prefix = '媒体';
+    } else {
+        userName = bulletCrowd.keyboardWarrior[Math.floor(Math.random() * bulletCrowd.keyboardWarrior.length)];
+        prefix = '吃瓜';
     }
     
     // 正面/中性消息
@@ -4320,7 +4428,14 @@ function triggerDeathAnnouncement(count) {
         `演播厅里，又一次灯灭了。`,
         `天啊……这轮太惨烈了`,
         `这就是Ashland的残酷吗？`,
-        `选手们辛苦了……`
+        `选手们辛苦了……`,
+        `希望他们能安息`,
+        `下一轮要更加小心了`,
+        `屏幕上的名字又少了一个`,
+        `直播弹幕瞬间刷屏`,
+        `这游戏真的太残酷了`,
+        `我不敢看了……`,
+        `眼泪止不住……`
     ];
     
     // CP粉消息
@@ -4329,7 +4444,12 @@ function triggerDeathAnnouncement(count) {
         `两个人都要好好的！`,
         `这就是节目组的套路，拆散CP？`,
         `求求了别再淘汰了！`,
-        `呜呜呜我的CP要be了`
+        `呜呜呜我的CP要be了`,
+        `为什么偏偏是他们俩？`,
+        `编剧出来挨打！`,
+        `我的CP大旗不能倒！`,
+        `刀片已经寄去节目组了`,
+        `这剧情我不看了！`
     ];
     
     // 负面消息（吐槽节目/剧本，不是人身攻击）
@@ -4343,16 +4463,110 @@ function triggerDeathAnnouncement(count) {
         `这轮节奏也太快了吧？`,
         `感觉选手被针对了……`,
         `节目越来越像剧本杀了`,
-        `这节目要凉的节奏啊`
+        `这节目要凉的节奏啊`,
+        `剪辑师出来背锅！`,
+        `PD的脑子进水了？`,
+        `这赛制是用脚想的吗？`,
+        `资本的力量太可怕了`,
+        `这游戏根本不公平！`
+    ];
+    
+    // 贱兮兮消息
+    const trollMessages = [
+        `早说了TA不行，果然淘汰了`,
+        `淘汰得好！早就看TA不顺眼了`,
+        `又少了一个竞争对手，开心`,
+        `下一个会是谁呢~`,
+        `哈哈哈哈哈喜闻乐见`,
+        `终于淘汰了，等着这一刻好久了`,
+        `淘汰得漂亮！干得好！`,
+        `TA不走我走！`,
+        `太好了！终于清净了`,
+        `这波啊，这波是节目效果`
+    ];
+    
+    // 同情消息
+    const sympathyMessages = [
+        `太可怜了……`,
+        `TA明明那么努力`,
+        `心疼……`,
+        `哭了哭了`,
+        `为什么是TA……`,
+        `节目组没有心`,
+        `一路走好`,
+        `TA还那么年轻……`,
+        `我的眼泪不值钱`,
+        `愿天堂没有Ashland`
+    ];
+    
+    // 痛斥节目组消息
+    const angerMessages = [
+        `节目组去死！`,
+        `还我选手！`,
+        `抵制Ashland！`,
+        `这是人做的事吗？`,
+        `节目组没有心！`,
+        `我要举报这个节目！`,
+        `太过分了！`,
+        `把选手当什么了？`,
+        `这是谋杀！`,
+        `我们要抗议！`
+    ];
+    
+    // 内部人员消息
+    const staffMessages = [
+        `直播事故处理中……`,
+        `信号恢复正常`,
+        `导播切画面`,
+        `下一组准备`,
+        `按剧本走`,
+        `收视率+10%`,
+        `效果很好`,
+        `继续保持`,
+        `按流程来`,
+        `收到指令`
+    ];
+    
+    // 媒体消息
+    const pressMessages = [
+        `突发！Ashland又有淘汰`,
+        `独家报道：现场混乱`,
+        `内部人士透露：有黑幕`,
+        `收视率创新高`,
+        `选手家属悲痛欲绝`,
+        `警方介入调查`,
+        `争议不断`,
+        `舆论哗然`,
+        `赞助商紧急声明`,
+        `节目面临停播危机`
     ];
     
     let messages;
-    if (crowdType < 0.55) {
-        messages = crowdType < 0.35 ? positiveMessages : cpMessages;
-    } else if (crowdType < 0.75) {
-        messages = Math.random() < 0.5 ? positiveMessages : negativeMessages;
+    if (crowdType < 0.25) {
+        messages = Math.random() < 0.6 ? positiveMessages : sympathyMessages;
+    } else if (crowdType < 0.40) {
+        messages = Math.random() < 0.7 ? cpMessages : sympathyMessages;
+    } else if (crowdType < 0.55) {
+        const rand = Math.random();
+        if (rand < 0.4) messages = positiveMessages;
+        else if (rand < 0.65) messages = sympathyMessages;
+        else if (rand < 0.85) messages = negativeMessages;
+        else messages = trollMessages;
+    } else if (crowdType < 0.68) {
+        const rand = Math.random();
+        if (rand < 0.5) messages = negativeMessages;
+        else if (rand < 0.75) messages = trollMessages;
+        else messages = angerMessages;
+    } else if (crowdType < 0.78) {
+        messages = staffMessages;
+    } else if (crowdType < 0.86) {
+        messages = pressMessages;
     } else {
-        messages = negativeMessages;
+        const rand = Math.random();
+        if (rand < 0.3) messages = negativeMessages;
+        else if (rand < 0.5) messages = trollMessages;
+        else if (rand < 0.7) messages = sympathyMessages;
+        else messages = angerMessages;
     }
     
     const msg = messages[Math.floor(Math.random() * messages.length)];
@@ -4424,7 +4638,9 @@ function formatText(text) {
         /^\s*◇\s+(.+)$/gm,
         /^\s*◆\s+(.+)$/gm,
         /^\s*▶\s+(.+)$/gm,
-        /^\s*▸\s+(.+)$/gm
+        /^\s*▸\s+(.+)$/gm,
+        /^\s*>\s*\d+[\.\)、)]?\s+(.+)$/gm,
+        /^\s*>\s+(.+)$/gm
     ];
     
     let options = [];
@@ -4441,7 +4657,7 @@ function formatText(text) {
     let optionHTML = '';
     if (options.length >= 1) {
         optionHTML = '<div class="options-list">' + options.map((line, idx) => {
-            const action = stripHTML(line.replace(/^\s*(\d+[\.\)、)]|[A-Zａ-ｚＡ-Ｚ][\.\)、)]|【[A-Zａ-ｚＡ-Ｚ]】|\[[A-Zａ-ｚＡ-Ｚ]\]|◇|◆|▶|▸)\s*/, '')).trim();
+            const action = stripHTML(line.replace(/^\s*(>\s*)?(\d+[\.\)、)]|[A-Zａ-ｚＡ-Ｚ][\.\)、)]|【[A-Zａ-ｚＡ-Ｚ]】|\[[A-Zａ-ｚＡ-Ｚ]\]|◇|◆|▶|▸)\s*/, '')).trim();
             return `<button class="option-btn" data-action="${escapeHTML(action)}">${line}</button>`;
         }).join('') + '</div>';
     }
@@ -4957,6 +5173,56 @@ menuBtn.addEventListener('click', e => {
     e.stopPropagation();
     menuDropdown.classList.toggle('active');
 });
+
+// 快速操作按钮事件
+const quickStatus = document.getElementById('quickStatus');
+const quickDanmaku = document.getElementById('quickDanmaku');
+const quickGuide = document.getElementById('quickGuide');
+const quickLogic = document.getElementById('quickLogic');
+
+if (quickStatus) {
+    quickStatus.addEventListener('click', () => {
+        playSfx('click');
+        sidePanel.classList.add('active');
+    });
+}
+
+if (quickDanmaku) {
+    quickDanmaku.addEventListener('click', () => {
+        playSfx('click');
+        const container = document.getElementById('death-announcement-container');
+        if (container) {
+            const announcements = container.querySelectorAll('.death-announcement');
+            if (announcements.length > 0) {
+                announcements.forEach((ann, idx) => {
+                    ann.style.animation = 'none';
+                    ann.offsetHeight;
+                    ann.style.animation = null;
+                    ann.classList.remove('fade-out');
+                    setTimeout(() => {
+                        ann.classList.add('fade-out');
+                    }, 4000 + idx * 500);
+                });
+            } else {
+                appendSystem('暂无弹幕记录。');
+            }
+        }
+    });
+}
+
+if (quickGuide) {
+    quickGuide.addEventListener('click', () => {
+        playSfx('click');
+        guideModal.classList.add('active');
+    });
+}
+
+if (quickLogic) {
+    quickLogic.addEventListener('click', () => {
+        playSfx('click');
+        runLogicCheck(true);
+    });
+}
 
 document.addEventListener('click', e => {
     if (!menuDropdown.contains(e.target) && !menuBtn.contains(e.target)) {
