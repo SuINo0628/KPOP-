@@ -628,10 +628,12 @@
             transition: border-color .18s ease, background .18s ease, transform .18s ease;
             line-height: 1.75;
             font-size: 14px;
+            border-radius: 4px;
             clip-path: polygon(0 0, calc(100% - 12px) 0, 100% 12px, 100% 100%, 12px 100%, 0 calc(100% - 12px));
         }
 
         .option-btn:hover {
+            border-radius: 4px;
             border-color: rgba(215,25,56,.52);
             background: rgba(215,25,56,.11);
             transform: translateX(5px);
@@ -660,11 +662,13 @@
             color: rgba(255,255,255,.7);
             font-size: 11px;
             cursor: pointer;
-            border-radius: 12px;
+            border-radius: 6px;
             transition: all .2s;
         }
 
-        .quick-btn:hover {
+        .quick-btn:hover,
+        .quick-btn:active {
+            border-radius: 6px;
             background: rgba(37,217,255,.18);
             border-color: rgba(37,217,255,.35);
             color: var(--text);
@@ -686,10 +690,11 @@
             padding: 0 12px;
             font-size: 13px;
             clip-path: none;
-            border-radius: 8px;
+            border-radius: 6px;
         }
 
         #input:focus {
+            border-radius: 6px;
             border-color: rgba(37,217,255,.4);
             box-shadow: 0 0 0 1px rgba(37,217,255,.1);
         }
@@ -711,13 +716,14 @@
             font-family: var(--mono);
             font-weight: 900;
             clip-path: none;
-            border-radius: 8px;
+            border-radius: 6px;
         }
 
         #send:disabled {
             filter: grayscale(1);
             opacity: .42;
             cursor: not-allowed;
+            border-radius: 6px;
         }
 
         .modal {
@@ -741,6 +747,7 @@
             background: var(--glass-strong);
             padding: 22px;
             box-shadow: var(--shadow);
+            border-radius: 6px;
             clip-path: polygon(0 0, calc(100% - 20px) 0, 100% 20px, 100% 100%, 20px 100%, 0 calc(100% - 20px));
         }
 
@@ -1081,7 +1088,7 @@
             .quick-btn {
                 padding: 2px 6px;
                 font-size: 10px;
-                border-radius: 10px;
+                border-radius: 6px;
             }
 
             .input-row {
@@ -2566,7 +2573,7 @@
         .jester-block {
             width: min(760px, 100%) !important;
             margin: 0 auto 14px !important;
-            border-radius: 18px !important;
+            border-radius: 6px !important;
             clip-path: none !important;
             padding: 16px 18px !important;
             background:
@@ -2629,13 +2636,14 @@
             font-family: var(--font-ui);
             font-size: 13.5px !important;
             font-weight: 600 !important;
-            border-radius: 14px;
+            border-radius: 4px;
             clip-path: none !important;
         }
 
         .option-btn:hover,
         .option-btn:active,
         .option-btn.clicked {
+            border-radius: 4px;
             background: var(--accent-soft) !important;
             border-color: var(--accent) !important;
             color: #fff !important;
