@@ -208,7 +208,7 @@
             z-index: 1;
             height: 100vh;
             display: grid;
-            grid-template-rows: 68px 1fr 72px;
+            grid-template-rows: 52px 1fr 68px;
             overflow: hidden;
             opacity: 0;
             transition: opacity .5s ease;
@@ -221,7 +221,7 @@
             grid-template-columns: minmax(180px, 1fr) auto 44px;
             align-items: center;
             gap: 16px;
-            padding: 10px 18px;
+            padding: 6px 18px;
             background: linear-gradient(180deg, rgba(10,10,15,.98), rgba(10,10,15,.72));
             border-bottom: none;
             backdrop-filter: blur(16px);
@@ -367,7 +367,7 @@
             min-width: 0;
             overflow-y: auto;
             overflow-x: hidden;
-            padding: 28px clamp(14px, 4vw, 48px);
+            padding: 16px clamp(12px, 4vw, 36px);
             scroll-behavior: smooth;
             position: relative;
         }
@@ -640,27 +640,27 @@
         .inputbar {
             display: flex;
             flex-direction: column;
-            gap: 6px;
-            padding: 8px 12px;
+            gap: 3px;
+            padding: 5px 10px 6px;
             border-top: none;
-            background: linear-gradient(180deg, rgba(10,10,15,.74), rgba(10,10,15,.96));
+            background: linear-gradient(180deg, rgba(10,10,15,.55), rgba(10,10,15,.9));
             backdrop-filter: blur(18px);
         }
 
         .quick-actions {
             display: flex;
-            gap: 5px;
+            gap: 4px;
             justify-content: center;
         }
 
         .quick-btn {
-            padding: 4px 10px;
-            border: 1px solid rgba(255,255,255,.12);
-            background: rgba(255,255,255,.04);
-            color: rgba(255,255,255,.78);
+            padding: 3px 8px;
+            border: 1px solid rgba(255,255,255,.1);
+            background: rgba(255,255,255,.03);
+            color: rgba(255,255,255,.7);
             font-size: 11px;
             cursor: pointer;
-            border-radius: 14px;
+            border-radius: 12px;
             transition: all .2s;
         }
 
@@ -678,37 +678,40 @@
         #input {
             flex: 1;
             min-width: 0;
-            height: 40px;
-            border: 1px solid rgba(255,255,255,.13);
-            background: rgba(255,255,255,.045);
+            height: 34px;
+            border: 1px solid rgba(255,255,255,.1);
+            background: rgba(255,255,255,.03);
             color: var(--text);
             outline: none;
-            padding: 0 14px;
-            font-size: 14px;
-            clip-path: polygon(0 0, calc(100% - 10px) 0, 100% 10px, 100% 100%, 10px 100%, 0 calc(100% - 10px));
+            padding: 0 12px;
+            font-size: 13px;
+            clip-path: none;
+            border-radius: 8px;
         }
 
         #input:focus {
-            border-color: rgba(37,217,255,.54);
-            box-shadow: 0 0 0 1px rgba(37,217,255,.16);
+            border-color: rgba(37,217,255,.4);
+            box-shadow: 0 0 0 1px rgba(37,217,255,.1);
         }
 
         .input-hint {
-            font-size: 11px;
-            color: rgba(255,255,255,.45);
+            font-size: 10px;
+            color: rgba(255,255,255,.38);
             text-align: center;
+            line-height: 1;
         }
 
         #send {
-            width: 46px;
-            height: 40px;
-            border: 1px solid rgba(255,255,255,.18);
+            width: 40px;
+            height: 34px;
+            border: 1px solid rgba(255,255,255,.12);
             background: linear-gradient(135deg, var(--blood), #4a1421);
             color: white;
             cursor: pointer;
             font-family: var(--mono);
             font-weight: 900;
-            clip-path: polygon(0 0, calc(100% - 10px) 0, 100% 10px, 100% 100%, 10px 100%, 0 calc(100% - 10px));
+            clip-path: none;
+            border-radius: 8px;
         }
 
         #send:disabled {
@@ -821,14 +824,14 @@
         }
 
         @media (max-width: 900px) {
-            #app { grid-template-rows: 64px 1fr 70px; }
+            #app { grid-template-rows: 52px 1fr 62px; }
             .main { grid-template-columns: 1fr; }
             #sidePanel {
                 position: fixed;
-                top: 72px;
+                top: 60px;
                 right: 12px;
                 width: min(330px, calc(100vw - 24px));
-                max-height: calc(100vh - 152px);
+                max-height: calc(100vh - 140px);
                 border: 1px solid var(--line-hard);
                 box-shadow: var(--shadow);
                 z-index: 25;
@@ -842,7 +845,7 @@
                 transform: translateY(0);
                 pointer-events: auto;
             }
-            .topbar { grid-template-columns: minmax(100px, 1fr) auto 42px; padding: 10px 12px; }
+            .topbar { grid-template-columns: minmax(100px, 1fr) auto 40px; padding: 6px 12px; }
             .top-stats { gap: 5px; }
             .pill { padding: 6px 7px; font-size: 10px; }
             .pill strong { font-size: 12px; }
@@ -854,24 +857,7 @@
     
 
         /* ===== Ashland mobile & motion upgrade ===== */
-        .topbar::after {
-            content: "";
-            position: absolute;
-            left: 0;
-            right: 0;
-            bottom: -1px;
-            height: 1px;
-            background: linear-gradient(90deg, transparent, var(--blood-2), var(--cyan), transparent);
-            opacity: .7;
-            animation: signalSweep 3.2s linear infinite;
-        }
-
-        @keyframes signalSweep {
-            0% { transform: translateX(-65%); opacity: 0; }
-            18% { opacity: .85; }
-            55% { opacity: .65; }
-            100% { transform: translateX(65%); opacity: 0; }
-        }
+        .topbar::after { display: none; }
 
         .brand-title {
             animation: logoGlitch 6.8s steps(1,end) infinite;
@@ -977,15 +963,15 @@
             }
 
             #app {
-                grid-template-rows: 58px minmax(0, 1fr) 68px;
+                grid-template-rows: 50px minmax(0, 1fr) 62px;
                 height: 100dvh;
                 max-height: 100dvh;
             }
 
             .topbar {
-                grid-template-columns: 1fr auto 40px;
+                grid-template-columns: 1fr auto 38px;
                 gap: 8px;
-                padding: 8px 10px;
+                padding: 5px 10px;
                 min-width: 0;
             }
 
@@ -1083,27 +1069,38 @@
             }
 
             .inputbar {
-                padding: 8px 10px calc(8px + env(safe-area-inset-bottom));
-                gap: 6px;
+                padding: 3px 8px calc(3px + env(safe-area-inset-bottom));
+                gap: 3px;
                 border-top: none;
             }
 
+            .quick-actions {
+                gap: 3px;
+            }
+
             .quick-btn {
-                padding: 4px 10px;
-                font-size: 11px;
-                border-radius: 14px;
+                padding: 2px 6px;
+                font-size: 10px;
+                border-radius: 10px;
+            }
+
+            .input-row {
+                gap: 5px;
             }
 
             #input {
-                height: 40px;
-                font-size: 14px;
-                padding: 0 12px;
+                height: 32px;
+                font-size: 13px;
+                padding: 0 10px;
             }
 
             #send {
-                width: 46px;
-                height: 40px;
-                flex-shrink: 0;
+                width: 36px;
+                height: 32px;
+            }
+
+            .input-hint {
+                font-size: 9px;
             }
 
             #sidePanel {
@@ -1119,6 +1116,8 @@
                 border-left: 0;
                 border-right: 0;
                 border-bottom: 0;
+                border-top: 1px solid rgba(255,255,255,.06);
+            }
                 clip-path: polygon(0 18px, 18px 0, 100% 0, 100% 100%, 0 100%);
                 overflow-y: auto;
                 -webkit-overflow-scrolling: touch;
