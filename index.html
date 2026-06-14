@@ -223,7 +223,7 @@
             gap: 16px;
             padding: 10px 18px;
             background: linear-gradient(180deg, rgba(10,10,15,.98), rgba(10,10,15,.72));
-            border-bottom: 1px solid var(--line-hard);
+            border-bottom: none;
             backdrop-filter: blur(16px);
             z-index: 20;
             position: relative;
@@ -640,26 +640,27 @@
         .inputbar {
             display: flex;
             flex-direction: column;
-            gap: 8px;
-            padding: 10px 12px;
+            gap: 6px;
+            padding: 8px 12px;
+            border-top: none;
             background: linear-gradient(180deg, rgba(10,10,15,.74), rgba(10,10,15,.96));
             backdrop-filter: blur(18px);
         }
 
         .quick-actions {
             display: flex;
-            gap: 6px;
+            gap: 5px;
             justify-content: center;
         }
 
         .quick-btn {
-            padding: 6px 14px;
+            padding: 4px 10px;
             border: 1px solid rgba(255,255,255,.12);
             background: rgba(255,255,255,.04);
             color: rgba(255,255,255,.78);
-            font-size: 12px;
+            font-size: 11px;
             cursor: pointer;
-            border-radius: 16px;
+            border-radius: 14px;
             transition: all .2s;
         }
 
@@ -1082,19 +1083,26 @@
             }
 
             .inputbar {
-                padding: 10px 10px calc(10px + env(safe-area-inset-bottom));
-                gap: 9px;
+                padding: 8px 10px calc(8px + env(safe-area-inset-bottom));
+                gap: 6px;
+                border-top: none;
+            }
+
+            .quick-btn {
+                padding: 4px 10px;
+                font-size: 11px;
+                border-radius: 14px;
             }
 
             #input {
-                height: 48px;
+                height: 40px;
                 font-size: 14px;
-                padding: 0 14px;
+                padding: 0 12px;
             }
 
             #send {
-                width: 50px;
-                height: 48px;
+                width: 46px;
+                height: 40px;
                 flex-shrink: 0;
             }
 
