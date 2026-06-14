@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
     <title>Ashland S7</title>
-    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@500;600;700&family=Space+Grotesk:wght@400;500;600;700&family=Noto+Serif+SC:wght@400;500;700&family=Noto+Sans+SC:wght@400;500;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@500;600;700&family=Space+Grotesk:wght@400;500;600;700&family=Noto+Serif+SC:wght@400;500;700&family=Noto+Sans+SC:wght@400;500;700&family=Inter:wght@400;500;600;700;800&family=Ma+Shan+Zheng&family=ZCOOL+XiaoWei&display=swap" rel="stylesheet">
     <style>
         :root {
             --void: #030305;
@@ -491,6 +491,57 @@
 
         .user-block::before { background: var(--cyan); }
 
+        /* ===== 死亡播报 ===== */
+        #death-announcement-container {
+            position: fixed;
+            top: 120px;
+            right: 24px;
+            z-index: 9999;
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+            pointer-events: none;
+        }
+
+        .death-announcement {
+            background: linear-gradient(90deg, rgba(215,25,56,.92), rgba(139,0,0,.85));
+            color: #fff;
+            padding: 12px 20px;
+            font-size: 14px;
+            font-family: var(--mono);
+            box-shadow: 0 0 30px rgba(215,25,56,.5), 0 4px 12px rgba(0,0,0,.3);
+            animation: deathSlideIn .35s ease-out;
+            border-left: 4px solid #fff;
+            max-width: 340px;
+            letter-spacing: .5px;
+        }
+
+        .death-announcement.fade-out {
+            animation: deathFadeOut .6s ease-out forwards;
+        }
+
+        @keyframes deathSlideIn {
+            from { opacity: 0; transform: translateX(60px); }
+            to { opacity: 1; transform: translateX(0); }
+        }
+
+        @keyframes deathFadeOut {
+            to { opacity: 0; transform: translateX(40px); }
+        }
+
+        @media (max-width: 768px) {
+            #death-announcement-container {
+                top: 90px;
+                right: 12px;
+                left: 12px;
+            }
+            .death-announcement {
+                max-width: none;
+                font-size: 13px;
+                padding: 10px 16px;
+            }
+        }
+
         .system-block {
             text-align: center;
             color: var(--muted);
@@ -598,7 +649,7 @@
         #input {
             flex: 1;
             min-width: 0;
-            height: 46px;
+            height: 48px;
             border: 1px solid rgba(255,255,255,.13);
             background: rgba(255,255,255,.045);
             color: var(--text);
@@ -615,7 +666,7 @@
 
         #send {
             width: 52px;
-            height: 46px;
+            height: 48px;
             border: 1px solid rgba(255,255,255,.18);
             background: linear-gradient(135deg, var(--blood), #4a1421);
             color: white;
@@ -1002,14 +1053,14 @@
             }
 
             #input {
-                height: 46px;
+                height: 48px;
                 font-size: 14px;
                 padding: 0 14px;
             }
 
             #send {
                 width: 50px;
-                height: 46px;
+                height: 48px;
                 flex-shrink: 0;
             }
 
@@ -2527,6 +2578,9 @@
         }
 
         .option-btn {
+            min-height: 52px;
+            display: flex;
+            align-items: center;
             background: rgba(255,255,255,.045) !important;
             color: rgba(246,248,255,.90) !important;
             border: 1px solid var(--line-theme) !important;
@@ -3698,6 +3752,8 @@
             <button class="modal-close-x" id="closeChangelogTop" title="关闭">×</button>
             <h2 class="log-title">更新日志</h2>
             <div class="changelog-list">
+                <div class="changelog-item"><strong>v3.1 · 2026年06月14日</strong><span class="log-body">AI生成文本后自动滚动到新内容起始处（而非最底部），用户手动向上滑动时暂停自动跟随；新增随机弹幕ID与CP粉/普通观众/负面弹幕系统；"研墨中"改为"直播中"以匹配世界观。</span></div>
+                <div class="changelog-item"><strong>v3.0 · 2026年06月14日</strong><span class="log-body">强化系统提示词输出规则：强制每次回复必须返回2-4个编号选项，选项以◇或数字开头并单独成行；隐藏信息规则（对手能力等放入【状态变更】不显示）；新增死亡播报与人数联动；强化存活人数与剧情的实时绑定。</span></div>
                 <div class="changelog-item"><strong>v2.9 · 2026年06月14日 03:42</strong><span class="log-body">取消重复动画与重复触发：关闭主要无限循环动画，移除定时自修复轮询，新增开始与发送锁，防止按钮、回车、选项连点造成重复请求和卡顿。</span></div>
                 <div class="changelog-item"><strong>v2.8 · 2026年06月14日 03:33</strong><span class="log-body">新增逻辑自查；更新日志改为倒叙；输入框固定白色；优化选项点击卡顿；右上角改为轮次 / 存活 / 死亡并实时读取状态；生成时降低闪烁；加入点击与武器获得音效。</span></div>
                 <div class="changelog-item"><strong>v2.7 · 2026年06月14日 03:18</strong><span class="log-body">修复输入框与选项锁死问题：进入游戏后会自动修复输入状态，选项点击改为更稳的按钮识别。</span></div>
@@ -3823,22 +3879,30 @@ HYBE：BTS / SEVENTEEN / TXT / ENHYPEN / LE SSERAFIM / NewJeans
 
 【输出格式】
 每次回复必须：
-1. 以第二人称“你”叙述。
+1. 以第二人称"你"叙述。
 2. 字数一般120-220字，关键场景可更长。
 3. 禁止替玩家做最终选择，必须停在选择面前。
-4. 给出2-4个编号选项，也允许自由输入。
-5. 重要播报用【Jester：……】。
-6. 轮次开始格式：【第X轮 · 存活XX人】。
-7. 选项可以使用 1/2/3 或 A/B/C 格式，但必须保持每个选项单独一行。
-8. 禁止在玩家可见正文中显示【当前状态】、【当前前端状态】、状态表、后台变量、轮次变量表。状态只能写在末尾【状态变更】中，前端会读取但不会显示。
-9. 状态更新必须放在回复末尾，格式：
+4. ⚠️【强制】每次回复的结尾必须给出2-4个编号选项。即使剧情还未到明显分支点，也要给出行事选项。没有选项的回复是违规的。
+5. ⚠️【强制】选项必须单独成行，并且必须以"◇"或"◆"或数字"1."/"2."开头。
+6. ⚠️【强制】每个选项行的格式示例：
+◇ 1. 冲上去抓住机会
+◇ 2. 先躲在暗处观察
+◇ 3. 呼叫队友支援
+◇ 4. 自由行动（输入你的行动）
+——最后一个"自由行动"选项必须出现在选项末尾。
+7. 重要播报用【Jester：……】。
+8. 轮次开始格式：【第X轮 · 存活XX人】。
+9. ⚠️【隐藏信息规则】其他选手的能力、身份、秘密、隐藏属性等玩家不应该直接知道的信息，一律写在【状态变更】里，不要出现在玩家可见的正文中。
+10. 禁止在玩家可见正文中显示【当前状态】、【当前前端状态】、状态表、后台变量、轮次变量表。状态只能写在末尾【状态变更】中，前端会读取但不会显示。
+11. 状态更新必须放在回复末尾，格式：
 【状态变更】轮次=1, 存活=100, 目标=50, 阶段=登记, 人气=未知, 副作用=0, 本轮淘汰=0, 场景=未生成
-可按剧情增减字段，但字段名必须清晰。
+可按剧情增减字段，但字段名必须清晰。如果出现淘汰或死亡，必须在【状态变更】中更新"存活"和"本轮淘汰"数值。
 
 【文本强调规则】
 - 重要名词、关键选择、危险提示、死亡播报、角色姓名、道具名、场景名可以使用 **加粗**。
 - 环境氛围、回忆、耳语、身体感受、直播延迟、幻觉片段可以使用 *斜体*。
 - 不要整段加粗或整段斜体，每段最多强调1-3处。
+- 环境描写要详细，让玩家有沉浸感。
 
 【好感度与恋爱关系】
 前端会告知是否开启好感度/恋爱关系线。
@@ -4177,12 +4241,145 @@ function extractStatus(text) {
         else if (/物品|道具/.test(key)) state.inventory = value === '空' ? [] : value.split(/[|、，,]/).map(x => x.trim()).filter(Boolean);
     }
 
-    if (!deathsProvided && prev.alive !== undefined && state.alive < prev.alive) {
-        state.deaths = Math.max(0, prev.alive - state.alive);
+    // ===== 死亡播报系统 =====
+    if (prev.alive !== undefined && state.alive < prev.alive) {
+        const deathCount = prev.alive - state.alive;
+        if (deathCount > 0) {
+            triggerDeathAnnouncement(deathCount);
+        }
+    }
+    if (deathsProvided && prev.deaths !== undefined && state.deaths > prev.deaths) {
+        triggerDeathAnnouncement(state.deaths - prev.deaths);
     }
 
     updateUI(prev);
     saveLocal();
+}
+
+// ===== 弹幕系统 =====
+// 角色/CP池 - 可根据剧情自定义
+const bulletCrowd = {
+    // 单人粉丝
+    soloFans: [
+        '元英粉丝', '瑞莎粉丝', '贤镇粉丝', '智敏粉丝', '智英粉丝',
+        '娜妍粉丝', '彩妍粉丝', '敏智粉丝', '彩媛粉丝', '宥真粉丝',
+        '小婷粉丝', '多娟粉丝', '有娜粉丝', '礼志粉丝', '留真粉丝'
+    ],
+    // CP粉
+    cpFans: [
+        '元瑞CP粉', '贤智CP粉', '妍媛CP粉', '敏彩CP粉', '宥婷CP粉',
+        '娟娜CP粉', '彩礼CP粉', '英真CP粉', '智敏CP粉', '秀敏CP粉'
+    ],
+    // 普通观众
+    general: [
+        '路人观众', '综艺粉', '选秀路人', '节目忠实粉', '吃瓜群众',
+        '路人甲', '路人乙', '普通观众', '看综艺的'
+    ],
+    // 黑粉/负面弹幕（非人身攻击，吐槽节目/剧本）
+    haters: [
+        '剧本检测器', '节目组观察者', '节目吐槽君', '收视率分析师',
+        '评委', '毒舌观众', '节目黑粉', '剧情质检员'
+    ]
+};
+
+function generateBulletId() {
+    const chars = 'ABCDEFGHJKLMNPQRSTUVWXYZ0123456789';
+    let id = '#';
+    for (let i = 0; i < 6; i++) {
+        id += chars.charAt(Math.floor(Math.random() * chars.length));
+    }
+    return id;
+}
+
+// ===== 死亡播报触发 =====
+function triggerDeathAnnouncement(count) {
+    const bulletId = generateBulletId();
+    const crowdType = Math.random();
+    let userName, prefix;
+    
+    if (crowdType < 0.35) {
+        userName = bulletCrowd.soloFans[Math.floor(Math.random() * bulletCrowd.soloFans.length)];
+        prefix = '粉丝团';
+    } else if (crowdType < 0.55) {
+        userName = bulletCrowd.cpFans[Math.floor(Math.random() * bulletCrowd.cpFans.length)];
+        prefix = 'CP粉';
+    } else if (crowdType < 0.75) {
+        userName = bulletCrowd.general[Math.floor(Math.random() * bulletCrowd.general.length)];
+        prefix = '观众';
+    } else {
+        userName = bulletCrowd.haters[Math.floor(Math.random() * bulletCrowd.haters.length)];
+        prefix = '吐槽';
+    }
+    
+    // 正面/中性消息
+    const positiveMessages = [
+        `${count}位选手被淘汰了……直播信号有些颤抖`,
+        `又一位偶像参加了Ashland！`,
+        `${count}人离开了这个舞台……太突然了`,
+        `——Ashland S7 · 淘汰${count}人——`,
+        `演播厅里，又一次灯灭了。`,
+        `天啊……这轮太惨烈了`,
+        `这就是Ashland的残酷吗？`,
+        `选手们辛苦了……`
+    ];
+    
+    // CP粉消息
+    const cpMessages = [
+        `我的CP……不要啊！`,
+        `两个人都要好好的！`,
+        `这就是节目组的套路，拆散CP？`,
+        `求求了别再淘汰了！`,
+        `呜呜呜我的CP要be了`
+    ];
+    
+    // 负面消息（吐槽节目/剧本，不是人身攻击）
+    const negativeMessages = [
+        `这剧本是不是太假了？`,
+        `节目组能不能公平一点？`,
+        `收视率要被你们玩崩了`,
+        `这淘汰机制越来越看不懂了`,
+        `又是节目组在操控？`,
+        `我觉得有黑幕`,
+        `这轮节奏也太快了吧？`,
+        `感觉选手被针对了……`,
+        `节目越来越像剧本杀了`,
+        `这节目要凉的节奏啊`
+    ];
+    
+    let messages;
+    if (crowdType < 0.55) {
+        messages = crowdType < 0.35 ? positiveMessages : cpMessages;
+    } else if (crowdType < 0.75) {
+        messages = Math.random() < 0.5 ? positiveMessages : negativeMessages;
+    } else {
+        messages = negativeMessages;
+    }
+    
+    const msg = messages[Math.floor(Math.random() * messages.length)];
+    
+    // 创建死亡播报元素
+    const announce = document.createElement('div');
+    announce.className = 'death-announcement';
+    announce.textContent = `【${prefix} ${userName} ${bulletId}】${msg}`;
+    
+    // 插入到剧情区最上方，短暂显示后淡出
+    const container = document.getElementById('death-announcement-container') || createDeathContainer();
+    container.appendChild(announce);
+    
+    // 3.5秒后淡出移除
+    setTimeout(() => {
+        announce.classList.add('fade-out');
+        setTimeout(() => {
+            if (announce.parentNode) announce.parentNode.removeChild(announce);
+        }, 600);
+    }, 3500);
+}
+
+function createDeathContainer() {
+    const container = document.createElement('div');
+    container.id = 'death-announcement-container';
+    document.body.appendChild(container);
+    return container;
 }
 
 function visibleText(text) {
@@ -4219,20 +4416,34 @@ function formatText(text) {
         .replace(/\*\*(.+?)\*\*/g, '<strong>$1</strong>')
         .replace(/(^|[^*])\*([^*\n]+?)\*/g, '$1<em>$2</em>');
 
-    const optionLine = String.raw`(?:\d+[\.\)、)]|[A-ZＡ-Ｚ][\.\)、)]|【[A-ZＡ-Ｚ]】|\\[[A-ZＡ-Ｚ]\\])\s*.+`;
-    const optionRegex = new RegExp(`(?:^|\\n)((?:${optionLine}\\n?){2,})`);
-    const optionMatch = html.match(optionRegex);
-    let optionHTML = '';
-    if (optionMatch) {
-        const lineRegex = new RegExp(`^${optionLine}$`);
-        const lines = optionMatch[1].trim().split('\n').map(x => x.trim()).filter(line => lineRegex.test(line));
-        if (lines.length >= 2) {
-            optionHTML = '<div class="options-list">' + lines.map(line => {
-                const action = stripHTML(line.replace(/^(?:\d+[\.\)、)]|[A-ZＡ-Ｚ][\.\)、)]|【[A-ZＡ-Ｚ]】|\[[A-ZＡ-Ｚ]\])\s*/, '')).trim();
-                return `<button class="option-btn" data-action="${escapeHTML(action)}">${line}</button>`;
-            }).join('') + '</div>';
-            html = html.replace(optionMatch[1], '');
+    const optionPatterns = [
+        /^\s*\d+[\.\)、)]\s+(.+)$/gm,
+        /^\s*[A-Zａ-ｚＡ-Ｚ][\.\)、)]\s+(.+)$/gm,
+        /^\s*【[A-Zａ-ｚＡ-Ｚ]】\s+(.+)$/gm,
+        /^\s*\[[A-Zａ-ｚＡ-Ｚ]\]\s+(.+)$/gm,
+        /^\s*◇\s+(.+)$/gm,
+        /^\s*◆\s+(.+)$/gm,
+        /^\s*▶\s+(.+)$/gm,
+        /^\s*▸\s+(.+)$/gm
+    ];
+    
+    let options = [];
+    for (const pattern of optionPatterns) {
+        let match;
+        while ((match = pattern.exec(clean)) !== null) {
+            const optionText = match[0].trim();
+            if (!options.find(o => o === optionText)) {
+                options.push(optionText);
+            }
         }
+    }
+
+    let optionHTML = '';
+    if (options.length >= 1) {
+        optionHTML = '<div class="options-list">' + options.map((line, idx) => {
+            const action = stripHTML(line.replace(/^\s*(\d+[\.\)、)]|[A-Zａ-ｚＡ-Ｚ][\.\)、)]|【[A-Zａ-ｚＡ-Ｚ]】|\[[A-Zａ-ｚＡ-Ｚ]\]|◇|◆|▶|▸)\s*/, '')).trim();
+            return `<button class="option-btn" data-action="${escapeHTML(action)}">${line}</button>`;
+        }).join('') + '</div>';
     }
 
     html = html
@@ -4269,39 +4480,89 @@ function formatText(text) {
     return `<div class="story-response">${result}${optionHTML}${noteHTML}</div>`;
 }
 
-function appendAssistant(text) {
+// ===== 智能滚动系统 =====
+let isUserScrollingUp = false;
+let lastScrollTop = 0;
+let newContentStartPosition = 0;
+
+// 监听用户滚动行为
+story.addEventListener('scroll', () => {
+    if (isGenerating) {
+        const distanceFromBottom = story.scrollHeight - story.scrollTop - story.clientHeight;
+        // 如果用户向上滚了超过100px，暂停自动滚动
+        if (distanceFromBottom > 150) {
+            isUserScrollingUp = true;
+        }
+    }
+});
+
+function scrollStory(targetPosition) {
+    requestAnimationFrame(() => {
+        // 如果参数指定了目标位置，就滚到那里（新内容的开头）
+        if (typeof targetPosition === 'number' && targetPosition > 0) {
+            story.scrollTo({
+                top: targetPosition,
+                behavior: 'smooth'
+            });
+        } else {
+            // 打字动画期间：只有用户没手动上滑才自动滚动
+            if (!isUserScrollingUp) {
+                story.scrollTop = story.scrollHeight;
+            }
+        }
+    });
+}
+
+function appendAssistant(text, scrollToNewContent) {
     extractStatus(text);
+    // 记录新内容开始前的位置
+    const startPos = story.scrollHeight;
+    
     requestAnimationFrame(() => {
         const wrapper = document.createElement('div');
+        wrapper.className = 'story-response-wrapper';
+        // 给每个回复加ID，方便历史跳转
+        const msgId = 'msg-' + Date.now();
+        wrapper.id = msgId;
         wrapper.innerHTML = formatText(text);
         story.appendChild(wrapper);
         triggerSfxFromText(text);
-        scrollStory();
+        
+        // 关键改进：滚到新内容起始处，而非最底部
+        // 给20px的上下文留白，让用户看到"从哪里开始"
+        scrollStory(Math.max(0, startPos - 30));
+        
+        // 重置用户滚动标记
+        isUserScrollingUp = false;
     });
 }
 
 function appendUser(text) {
+    // 记录当前位置
+    const startPos = story.scrollHeight;
+    
     requestAnimationFrame(() => {
         const div = document.createElement('div');
         div.className = 'block user-block';
+        div.id = 'msg-' + Date.now();
         div.textContent = '▸ ' + stripHTML(text);
         story.appendChild(div);
-        scrollStory();
+        scrollStory(Math.max(0, startPos - 30));
+        isUserScrollingUp = false;
     });
 }
 
 function appendSystem(text) {
+    const startPos = story.scrollHeight;
     requestAnimationFrame(() => {
         const div = document.createElement('div');
         div.className = 'block system-block';
+        div.id = 'msg-' + Date.now();
         div.textContent = text;
         story.appendChild(div);
-        scrollStory();
+        scrollStory(Math.max(0, startPos - 30));
+        isUserScrollingUp = false;
     });
-}
-
-function scrollStory() {
-    requestAnimationFrame(() => story.scrollTop = story.scrollHeight);
 }
 
 function renderHistory() {
@@ -4708,10 +4969,61 @@ function renderReview() {
     const entries = chatHistory.map((msg, index) => {
         const role = msg.role === 'user' ? '你的行动' : '剧情记录';
         const cls = msg.role === 'user' ? ' user' : '';
-        const content = stripHTML(visibleText(msg.content || '')).slice(0, 900);
-        return `<div class="review-entry${cls}"><span class="review-role">${index + 1}. ${role}</span>${escapeHTML(content || '（无内容）')}</div>`;
+        const content = stripHTML(visibleText(msg.content || '')).slice(0, 500);
+        return `<div class="review-entry${cls}" data-index="${index}"><span class="review-role">${index + 1}. ${role}</span>${escapeHTML(content || '（无内容）')}
+<span class="review-jump-hint">点击跳转 →</span></div>`;
     }).join('');
     reviewList.innerHTML = entries || '<div class="review-entry"><span class="review-role">SYSTEM</span>暂无可回顾内容。</div>';
+    
+    // 绑定点击跳转
+    const items = reviewList.querySelectorAll('.review-entry[data-index]');
+    items.forEach(item => {
+        item.style.cursor = 'pointer';
+        item.style.position = 'relative';
+        item.addEventListener('click', () => {
+            const idx = parseInt(item.dataset.index, 10);
+            jumpToMessage(idx);
+        });
+    });
+}
+
+// ===== 历史节点跳转 =====
+function jumpToMessage(index) {
+    // 获取第n条消息对应的DOM元素
+    // 故事区的内容按顺序添加，每条消息1-2个元素
+    // 我们通过 querySelector 找对应的 wrapper
+    const targetSelector = chatHistory[index]?.role === 'user' ? '.user-block' : '.story-response, .story-response-wrapper';
+    const allMessages = story.querySelectorAll('.user-block, .story-response, .story-response-wrapper, .block.system-block');
+    
+    // 按顺序数到目标位置
+    let userCount = 0;
+    let assistantCount = 0;
+    let target = null;
+    
+    for (let i = 0; i <= index && i < chatHistory.length; i++) {
+        const msg = chatHistory[i];
+        // 对每条消息找对应DOM
+        const candidates = story.querySelectorAll(msg.role === 'user' ? '.user-block' : '.story-response, .story-response-wrapper');
+        const domIndex = msg.role === 'user' ? userCount++ : assistantCount++;
+        if (i === index && candidates[domIndex]) {
+            target = candidates[domIndex];
+            break;
+        }
+    }
+    
+    if (target) {
+        // 高亮+滚动
+        target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+        target.style.transition = 'background .3s';
+        target.style.background = 'rgba(215,25,56,.15)';
+        setTimeout(() => {
+            target.style.background = '';
+        }, 2000);
+    }
+    
+    // 关闭回顾弹窗
+    const closeBtn = document.querySelector('#closeReview');
+    if (closeBtn) closeBtn.click();
 }
 
 function renderLogicCheck() {
